@@ -5,10 +5,19 @@
 #include <fcntl.h>
 #include <assert.h>
 #include <sys/wait.h>
-
+#include <time.h>
 int
 main(int argc, char *argv[])
 {
+    time_t currentTime;
+    time(&currentTime);
+
+    struct tm *myTime = localtime(&currentTime);
+        int month = myTime->tm_mon + 1;
+        int year = myTime->tm_year + 1900;
+
+    printf("The current date and time is: %i/%i/%i %i:%i:%i\n", month, myTime->tm_mday, year, myTime->tm_hour, myTime->tm_min, myTime->tm_sec);
+
     int rc = fork();
     if (rc < 0) {
         // fork failed; exit
@@ -32,3 +41,4 @@ main(int argc, char *argv[])
     }
     return 0;
 }
+
